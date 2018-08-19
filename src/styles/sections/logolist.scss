@@ -1,0 +1,33 @@
+.logolist--inner {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin: 0;
+}
+
+.logolist--item {
+	@include layout-flex( $align: center );
+	border: 1px solid $card-border-color;
+	border-radius: $card-border-radius;
+	box-shadow: $card-box-shadow;
+	margin: 0 0 grid-pixels(0, 1);
+	padding: grid-pixels(0, 1) grid-pixels(0, 2);
+	width: 19.5%;
+	width: calc(20% - 15px);
+
+	@media screen and ( max-width: $medium ) {
+		margin-bottom: 10px;
+		width: 19.5%;
+		width: calc(20% - 10px);
+	}
+
+	@media screen and ( max-width: $small ) {
+		margin-bottom: 10px;
+		width: 49%%;
+		width: calc(50% - 10px);
+
+		svg {
+			max-height: none;
+		}
+	}
+}

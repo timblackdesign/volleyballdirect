@@ -1,0 +1,130 @@
+{% assign collection = collections[section.settings.collection] %}
+
+{% assign product_limit = 5 %}
+{% assign item_count = product_limit %}
+{% assign products = collection.products %}
+{% assign onboarding = false %}
+{% assign banner_image = false %}
+
+{% if products.size <= 0 %}
+  {% assign onboarding = true %}
+{% elsif products.size < product_limit %}
+  {% assign item_count = products.size %}
+{% endif %}
+
+{% comment %}
+  Add 1 to the item count for the Collection banner
+{% endcomment %}
+{% assign item_count = item_count | plus: 1 %}
+
+{% if section.settings.banner_image != blank %}
+  {% assign banner_image = section.settings.banner_image | img_url: '500x750' %}
+{% endif %}
+
+<script
+  type="application/json"
+  data-section-id="{{ section.id }}"
+  data-section-type="dynamic-featured-collection">
+</script>
+
+<section class="product-row--container featured-collection--container">
+  <div class="featured-collection--heading">
+      {% if section.settings.title != blank %}
+        <h1 class="home-section--title">
+          {{ section.settings.title | escape }}
+        </h1>
+      {% endif %}
+        <a class="featured-collection--more-button" href="{% if collection.url != blank %}{{ collection.url }}{% else %}#{% endif %}">
+          <span class="featured-collection--">
+            {{ 'onboarding.featured_collection.subtitle' | t }}
+            <!-- {% unless onboarding %}
+              {{ collection.title | escape }}
+            {% else %}
+              {{ 'onboarding.featured_collection.title' | t }}
+            {% endunless %} -->
+          </span>
+          <span>{% include 'icon-circle-arrow-right' %}</span>
+      </a>
+  </div>
+  <div class="home-section--content product-row--scroller product-row--count-{{ item_count }}">
+    <div class="product-row--outer">
+      <div class="product-row--inner">
+        {% for product in products limit: product_limit %}
+          {%
+            include 'product-grid-item',
+            product: product
+          %}
+        {% else %}
+          {% for i in (1..product_limit) %}
+            {% capture current %}{% cycle 1, 2, 3, 4 %}{% endcapture %}
+
+            {%- capture placeholder_image -%}
+              {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder--image' }}
+            {%- endcapture -%}
+
+            {%
+              include 'product-grid-item',
+              product: false
+            %}
+
+          {% endfor %}
+        {% endfor %}
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #shopify-section-{{section.id}} .featured-collection--banner {
+    color: {{ section.settings.banner_color }};
+
+    {% if banner_image %}
+      background-image: url('{{ banner_image | strip_newlines }}');
+    {% else %}
+      background-color: {{ settings.color_links }};
+    {% endif %}
+  }
+</style>
+{% schema %}
+{
+  "name": "Featured collection",
+  "class": "featured-collection--section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Featured collection"
+    },
+    {
+      "id": "collection",
+      "type": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "color",
+      "id": "banner_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "id": "banner_image",
+      "type": "image_picker",
+      "label": "Image",
+      "info": "500 x 750px .jpg recommended"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured collection",
+      "category": "Collection"
+    }
+  ]
+}
+
+{% endschema %}

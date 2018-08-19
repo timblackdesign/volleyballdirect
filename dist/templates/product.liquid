@@ -1,0 +1,3 @@
+{% section 'static-product' %}<div id="trustedsite-reviews" class="trustedsite-widget" data-type="9" data-pid="{{product.id}}" data-purl="{{product.url}}" style="margin: auto; max-width: 1200px; text-align: center;"></div>
+
+<script id="trustedsite-json-ld-loader">var v = document.createElement('script');v.setAttribute("type", "application/ld+json");v.innerHTML = JSON.stringify({{ product.metafields['trustedsite_reviews']['json_ld'] }});var b = document.getElementsByTagName("body")[0];b.insertBefore(v, b.children[0]);</script>

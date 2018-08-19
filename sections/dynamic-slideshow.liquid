@@ -1,0 +1,100 @@
+<script
+  type="application/json"
+  data-section-id="{{ section.id }}"
+  data-section-type="dynamic-slideshow">
+</script>
+
+{% if section.settings.is_disabled == false %}
+  <section class="slideshow--container">
+    {% if section.settings.title != blank %}
+      <h1 class="home-section--title">
+        {{ section.settings.title | escape }}
+      </h1>
+    {% endif %}
+
+    {%- capture classes -%}
+      home-section--content
+      slideshow--content
+    {%- endcapture -%}
+
+    <div class="{{ classes | strip_newlines }}">
+      {% if section.blocks.size > 0 %}
+        <div class="slideshow--inner">
+
+          {% for block in section.blocks %}
+
+            {% if block.settings.is_disabled == false %}
+                <div class="slideshow--slide" >
+                  <a href="{{ block.settings.block_link }}">
+                    <img src="{{ block.settings.image | img_url: '1024x1024' }}" alt="{{ block.settings.image.alt }}" class="slideshow--image">
+                  </a>
+                </div>
+            {%- endif -%}
+
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </section>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Slideshow",
+  "class": "slideshow--section",
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Slideshow"
+    },
+    {
+         "type": "checkbox",
+         "id": "is_disabled",
+         "default": false,
+         "label": "Unpublish"
+      }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+      {
+           "type": "checkbox",
+           "id": "is_disabled",
+           "default": false,
+           "label": "Unpublish this slide"
+        },
+        {
+          "id": "image",
+          "type": "image_picker",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "block_link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Slideshow",
+      "category": "Image",
+      "blocks": [
+        {
+          "type": "slide"
+        },
+        {
+          "type": "slide"
+        }
+      ]
+    }
+  ]
+}
+
+{% endschema %}

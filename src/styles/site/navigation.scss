@@ -1,0 +1,88 @@
+.site-navigation-wrapper {
+	background-color: $white;
+	box-shadow: 0 2px 4px rgba(0,0,0,0);
+	top: -10px;
+	transition: box-shadow 0.2s cubic-bezier(0.3, 0, 0, 1), transform 0.2s cubic-bezier(0.3, 0, 0, 1),-webkit-transform 0.2s cubic-bezier(0.3, 0, 0, 1) !important;
+
+	.site-header-actions {
+		max-width: 500px;
+
+		a {
+			opacity: 1;
+		}
+	}
+}
+.site-navigation {
+	@include layout-flex( $justify: space-between );
+
+	background-color: transparent;
+
+	a {
+		color: $black;
+		font-size: 15px;
+		font-weight: 300 !important;
+		text-transform: uppercase;
+
+		@media screen and (max-width: 1110px) {
+			$d: 8px;
+			font-size: 13px;
+			padding-left: $d;
+			padding-right: $d;
+		}
+	}
+
+	.navmenu-meganav--desktop {
+		background-color: $white-off;
+		box-shadow: 0 2px 4px rgba(0,0,0,.20) inset, 0 12px 15px rgba(0,0,0,.30);
+		padding: grid-pixels(0, 2.5) 0 !important;
+
+		.navmenu-depth-2 {
+			align-items: stretch;
+			display: flex;
+			padding-top: 0;
+		}
+
+		.navmenu-depth-3 {
+			background-color: transparent;
+
+			.navmenu-link {
+				border-radius: 2px;
+				font-size: 16px;
+				margin: 0 12px;
+				padding: 6px 12px;
+				text-transform: capitalize;
+
+				&:hover {
+					background-color: $yellow;
+					color: $white;
+				}
+			}
+		}
+
+		.navmenu-link-parent {
+			@include type-headline( $size: 20px, $marginbottom: 20px);
+
+			color: $grey;
+			padding-bottom: 0;
+			padding-top: 0;
+		}
+
+		.navmenu-meganav-item {
+			border-right: 1px dashed #ccc;
+
+			&:last-child {
+				border-width: 0;
+			}
+		}
+
+		.meganav-banner-item--image {
+			margin-left: grid-pixels(0, 1.25);
+			max-width: 255px;
+			width: 100%;
+		}
+	}
+
+	.navmenu-depth-1>li>a {
+		font-weight: bold !important;
+	}
+}

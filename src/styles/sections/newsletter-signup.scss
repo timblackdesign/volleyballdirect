@@ -1,0 +1,110 @@
+.newsletter-form--container {
+	margin: 0 auto;
+	max-width: 1400px;
+	width: 100%;
+}
+
+.newsletter-form--container-inner {
+	@include layout-flex();
+	background-color: $yellow;
+	border-radius: $card-border-radius;
+	color: $white;
+	margin:grid-pixels(0, 3) grid-pixels(0, 1.25) grid-pixels(0, 3);
+	padding: grid-pixels(0, 3) grid-pixels(0, 2);
+
+	@media screen and ( max-width: $medium ) {
+		margin: grid-pixels(0, 1) grid-pixels(0, .75);
+	}
+
+	.index & {
+		background-color: $dark-blue;
+	}
+}
+
+.newsletter-form--box-1 {
+	width: 40%;
+
+	@media screen and ( max-width: $medium ) {
+		margin-bottom: grid-pixels(0, 1);
+	}
+}
+
+.newsletter-form--box-2 {
+	width: 60%;
+}
+
+.newsletter-form--box {
+	@media screen and ( max-width: $medium ) {
+		width: 100%;
+	}	
+}
+
+.newsletter-form--form-container {
+	text-align: right;
+}
+
+.newsletter-form--headline {
+	@include type-headline( $size: 36px);
+
+	color: $white;
+	line-height: 1;
+	margin: 0 0 grid-pixels(0, 1);
+
+	@media screen and ( max-width: $medium ) {
+		margin-bottom: grid-pixels(0, .5);
+	}
+}
+
+.newsletter-form--subtext {
+	color: $white;	
+	font-size: 17px;
+}
+
+.newsletter-form--form {
+	.newsletter-form--input {
+		background-color: rgba(255,255,255,.2);
+		border-radius: $card-border-radius;
+		border-width: 0;
+		color: rgba(255,255,255,.5);
+		font-size: 17px;
+		height: 50px;
+		max-width: 390px;
+		padding: 0 grid-pixels(0, 1);
+		width: 50%;
+		width: calc( 100% - 200px );
+
+		&::placeholder {
+			color: rgba(255,255,255,.7);
+			text-transform: capitalize;
+		}
+	}
+
+	.newsletter-form--button {
+		background-color: $yellow;
+		border: 0 solid;
+		border-radius: $card-border-radius;
+		color: $white;
+		font-size: 17px;
+		height: 50px;	
+		margin-left: grid-pixels(0, 1);
+		max-width: 180px;
+		padding: 0 grid-pixels(0, 2);
+	}	
+
+	.newsletter-form--input, .newsletter-form--button-container, .newsletter-form--button {
+		@media screen and ( max-width: $small ) {
+			margin: grid-pixels(0, .5) 0 0;
+			max-width: none;
+			width: 100%;
+		}
+	}	
+}
+
+.newsletter-form--form-inner {
+	@include layout-flex( $justify: flex-end);
+
+	@media screen and ( min-width: $small) and ( max-width: $medium ) {
+		justify-content: flex-start;
+	}
+}
+

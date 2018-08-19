@@ -1,0 +1,41 @@
+.pagination--container {
+	@include layout-flex( $justify: center);
+
+	@media screen and ( max-width: $small ) {
+		flex-direction: column;
+
+		> div {
+			flex: 1;
+		}
+	}
+}
+
+.pagination--inner {
+	flex: 1;
+}
+
+.pagination--back-to-top-button {
+	@include button-arrow();
+
+	&:nth-child(1){
+		flex-direction: row-reverse;
+
+		svg {
+			margin-left: 0;
+			margin-right: grid-pixels(0, .5);
+		}
+	}
+
+	@media screen and ( max-width: $small ) {
+		margin-top: grid-pixels(0, 1);
+
+		&:nth-child(1){
+			display: none;
+		}
+	}
+
+	svg {
+		transform: rotate(-90deg);
+	}
+
+}

@@ -1,0 +1,11 @@
+.product-section--promos {
+	margin: grid-pixels(0, 3) 0;
+
+	@media screen and ( max-width: $small ) {
+		margin: grid-pixels(0, 1.5) 0;
+	}
+	
+	article {
+		border-radius: $card-border-radius;
+	}
+}

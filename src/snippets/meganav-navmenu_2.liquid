@@ -1,0 +1,59 @@
+{%- capture navmenu_classes -%}
+  navmenu
+  navmenu-meganav-items
+  navmenu-depth-2
+{%- endcapture -%}
+
+<ul class="{{ navmenu_classes | strip_newlines }}">
+
+  {% assign menus = block.settings.mega-menu-items | split: ',' %}
+
+  {% for menu in menus %}
+
+    {% if forloop.index0 == 4 %}
+      {% break %}
+    {% endif %}
+
+      {%- capture navmenu_item_classes -%}
+        navmenu-item
+        navmenu-item-parent
+        {{ nav_item_count }}
+        navmenu-id-{{ linklists[menu].title | handle }}
+        navmenu-meganav-item
+      {%- endcapture -%}
+
+      <li
+        class="{{ navmenu_item_classes | strip_newlines }}"
+        {{ block.shopify_attributes }}>
+        <span class="navmenu-item-text navmenu-link-parent">
+          {{ linklists[menu].title }}
+        </span>
+
+        {%
+          include 'meganav_subnavmenu',
+          menu: menu,
+          depth: 3,
+          max_depth: 4,
+          is_submenu: true,
+          has_triggers: true,
+          submenu_arrows: true
+        %}
+      </li>
+  {% endfor %}
+    {% if block.settings.banner %}
+      <li class="navmenu-item navmenu-item-parent meganav-banner-item navmenu-meganav-item">
+
+        {% if block.settings.image-link %}
+          <a href="{{ block.settings.image-link}}" class="meganav-banner-item--imag">
+        {% endif %}
+            <img
+            class="meganav-banner-item--image" 
+            src="{{ block.settings.banner | img_url: '400x400' }}"
+            alt="">
+        {% if block.settings.image-link %}
+          </a>
+        {% endif %}
+        
+      </li>
+    {% endif %}
+</ul>

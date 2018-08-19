@@ -1,0 +1,79 @@
+.menulist--inner {
+	border-width: 0;
+	box-shadow: none;
+	justify-content: space-between;
+}
+
+.menulist--item {
+	border: 1px solid $card-border-color !important;
+	border-radius: $card-border-radius;
+	box-shadow: $card-box-shadow;
+	padding: grid-pixels(0, 2);
+
+	.menulist--blocks-count-3 & {
+		width: 32%;
+		width: calc( 33% -  10px);
+	}
+
+	@media screen and ( max-width: $small ) {
+		padding: grid-pixels(0, .5);
+		margin-bottom: grid-pixels(0, .5);
+		width: 100% !important;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
+
+.menulist--item--inner {
+	border-width: 0;
+	box-shadow: none;
+	display: flex;
+	height: 100%;
+	justify-content: space-between;
+}
+
+.menulist--content {
+	margin-left: 0;
+	margin-right: 10%;
+	width: 40%;
+
+	@media screen and ( max-width: $large ) {
+		margin: 0 grid-pixels(0, .5) 0 0;
+		width: 100%;
+	}
+}
+
+.menulist--image {
+	align-items: center;
+	display: flex;
+	width: 50%;
+
+	svg {
+		width: 100%;
+	}
+
+	@media screen and ( max-width: $large ) {
+		display: none;
+	}
+}
+
+.menulist--title {
+	@include type-headline($size: 20px, $marginbottom: 10px);
+
+	color: $dark-blue;
+
+	@media screen and ( max-width: $small ) {
+		padding-bottom: grid-pixels(0, .5);
+	}
+}
+
+.menulist--menu-link {
+	color: $grey-medium !important;
+	line-height: grid-pixels(0, 1.25);
+
+	.menulist--menu-item-trigger & {
+		color: $bluey-grey !important;
+	}
+}

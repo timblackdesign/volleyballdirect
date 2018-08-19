@@ -1,0 +1,54 @@
+{% comment %}
+  Display options for a product
+
+  @param product
+
+  @param selected_variant
+{% endcomment %}
+
+<div data-product-options-container class="product-options-container">
+  <select name="id" data-variants class="form-options no-js-required">
+    <option>Select an option</option>
+    {% for variant in product.variants %}
+      {%- capture option_content -%}
+        {%- if variant.available -%}
+          {{ variant.title }} - {{ variant.price | money }}
+        {%- else -%}
+          {{ variant.title }} - {{ 'products.status.sold_out' | t }}
+        {%- endif -%}
+      {%- endcapture -%}
+      <option
+        {% if variant.id == selected_variant.id %}selected="selected"{% endif %}
+        data-variant-id="{{ variant.id }}"
+        {% if variant.available %}
+          data-sku="{{ variant.sku }}"
+          value="{{ variant.id }}"
+        {% else %}
+          disabled="disabled"
+        {% endif %}>
+        {{ option_content | strip_newlines }}
+      </option>
+    {% endfor %}
+  </select>
+
+  {% for option in product.options_with_values %}
+    <div class="form-field form-options js-required">
+      <div class="form-field-select-wrapper">
+        <select
+          class="form-field-input form-field-select"
+          data-product-option="{{ forloop.index0 }}">
+          <option>Select an option</option>
+          {% for value in option.values %}
+            <option
+              value="{{ value | escape }}"
+              {% if option.selected_value == value %}selected="selected"{% endif %}>
+              {{ value }}
+            </option>
+          {% endfor %}
+        </select>
+        <label class="form-field-title">{{ option.name }}</label>
+        {% include 'icon-chevron-down-small' %}
+      </div>
+    </div>
+  {% endfor %}
+</div>

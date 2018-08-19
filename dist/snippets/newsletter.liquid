@@ -1,0 +1,58 @@
+{% assign newsletter_tags = 'prospect' %}
+
+{%- if template contains 'password' %}
+  {% assign newsletter_tags = newsletter_tags | append: ' password page' %}
+{%- else -%}
+  {% assign newsletter_tags = newsletter_tags | append: ' newsletter' %}
+{%- endif -%}
+
+<div class="newsletter">
+  {% form 'customer' %}
+    {% if form.posted_successfully? %}
+      <p class="newsletter-success">
+        {{ 'general.newsletter.success' | t }}
+      </p>
+    {% else %}
+
+      <input
+        type="hidden"
+        name="contact[tags]"
+        value="{{ newsletter_tags }}">
+
+      <div class="form-fields-inline">
+
+        <div class="form-field newsletter-input">
+          <input
+            class="form-field-input form-field-text"
+            name="EMAIL"
+            id="newsletter_email"
+            type="email"
+            placeholder="{{ 'general.newsletter.placeholder' | t }}"
+            aria-label="{{ 'general.newsletter.placeholder' | t }}"
+          >
+
+          <label
+            class="form-field-title"
+            for="newsletter_email">
+            {{ 'general.newsletter.placeholder' | t }}
+          </label>
+        </div>
+
+        <div class="form-field newsletter-submit">
+          <button
+            class="button-tertiary"
+            name="subscribe"
+            type="submit">
+            {{ 'general.newsletter.subscribe' | t }}
+          </button>
+        </div>
+
+      </div>
+    {% endif %}
+  {% endform %}
+</div>
+<div class="site-footer-contact">
+  <span class="site-footer-contact-item site-footer-contact-item--phone">Toll Free: {{ shop.phone }}</span>
+  <span class="site-footer-contact-item site-footer-contact-item--fax">Fax: (540) 921-1475</span>
+  <span class="site-footer-contact-item site-footer-contact-item--email">Email: <a href="mailto:customerservice@directsports.com">customerservice@directsports.com</a></span>
+</div>

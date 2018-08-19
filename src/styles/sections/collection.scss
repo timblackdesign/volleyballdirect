@@ -1,0 +1,5 @@
+.collection--title {
+	@include type-headline( $size: 36px, $marginbottom: 0);
+
+	color: $grey;
+}

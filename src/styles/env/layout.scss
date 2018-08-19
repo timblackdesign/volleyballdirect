@@ -1,0 +1,71 @@
+body {
+	font-family: $sans;
+	font-weight: 400;
+}
+
+.site-main {
+	padding-top: 132px !important;
+	transition: padding-top .5s .2s;
+
+	@media screen and ( min-width: $small  ) {
+		padding-top: 140px !important;
+	}
+
+	@media screen and ( min-width: $medium  ) {
+		padding-top: 140px !important;
+	}
+
+	@media screen and ( min-width: $large  ) {
+		padding-top: 144px !important;
+	}
+}
+
+// theme quick cart fixes
+.atc-banner--cart-footer {
+	@include layout-flex( $direction: row-reverse, $justify: flex-end);
+
+	a {
+		margin-left: 0;
+		margin-right: grid-pixels(0, 1);
+
+		&:first-child {
+			margin-right: 0;
+		}
+	}
+}
+
+.atc-banner--inner {
+	@media screen and ( max-width: 782px ) and ( min-width: $small ) {
+		.atc-banner--cart {
+			width: 52%;
+		}
+		.atc-banner--product {
+			width: 48%;
+		}
+	}
+}
+
+@media screen and ( max-width: $small ) {
+	.atc-banner--inner {	
+		text-align: left;
+	}
+	.atc--product {
+	    margin-left: 0;
+	}
+}
+
+// Login page fixes
+.account-page-login {
+	@media screen and ( min-width: $small ) {
+		.form-action-row--helper {
+			display: block;
+			margin-left: 0;
+			margin-top: grid-pixels(0, 1);
+		}		
+	}
+}
+
+// Product page form fix
+.form-field.form-options.js-required {
+    margin-top: 0;
+}

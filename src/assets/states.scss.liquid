@@ -1,0 +1,46 @@
+.state--announcement-open {
+    .site-header-announcement {
+      margin-top: 0;
+      opacity: 1;
+    }
+
+    .site-main {
+      padding-top: 194px !important;
+
+      @media screen and ( max-width: $medium ) {
+        padding-top: 180px !important;
+      }
+
+      @media screen and ( max-width: $small ) {
+        padding-top: 183px !important;
+      }
+    }
+
+    .atc-banner--container {
+        top: 192px !important;
+        transition: top .2s;
+    }
+
+    &.site-header-sticky--scrolled {
+        .atc-banner--container {
+            @media screen and ( min-width: $medium ) {
+              top: 115px !important;
+            }    
+        }
+
+        .site-header-sticky--open .site-navigation-wrapper {
+          -webkit-transform: translateY(115px);
+              -ms-transform: translateY(115px);
+                  transform: translateY(115px);
+        }
+    }
+}
+
+.state--image-enlarged {
+  .product-modal--enlarged-image {
+
+    opacity: 1;
+    top: 0 !important;
+    visibility: visible;
+  }
+}

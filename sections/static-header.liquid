@@ -1,0 +1,258 @@
+{%- capture flydown_chevron -%}
+  {% include 'icon-chevron-down-small' %}
+{%- endcapture -%}
+
+<script
+  type="application/json"
+  data-section-id="{{ section.id }}"
+  data-section-type="static-header"
+  data-section-data>
+  {
+    "settings": {
+      "sticky_header": {{ section.settings.sticky_header | json }},
+      "live_search": {
+        "enable": {{ section.settings.enable_live_search | json }},
+        "enable_images": {{ section.settings.enable_live_search_images | json }},
+        "enable_content": {{ section.settings.enable_live_search_articles_pages | json }},
+        "money_format": {{ shop.money_format | strip_html | json }},
+        "context": {
+          "view_all_results": {{ 'search.general.view_all_results' | t | json }},
+          "view_all_products": {{ 'search.general.view_all_products' | t | json }},
+          "chevron": {{ flydown_chevron | replace: '  ', '' | strip_newlines | json }},
+          "content_results": {
+            "title": {{ 'search.general.pages_and_posts_title' | t | json }},
+            "no_results": {{ 'search.general.pages_and_posts_no_results' | t | json }}
+          },
+          "no_results_products": {
+            "title": {{ 'search.general.no_results_products_title' | t: terms: '*terms*' | json }},
+            "message": {{ 'search.general.no_results_products_message' | t | json }}
+          }
+        }
+      }
+    },
+    "currency": {
+      "enable": {{ settings.enable_currency_converter | default: false }},
+      "shop_currency": {{ shop.currency | json }},
+      "default_currency": {{ settings.currency_converter_default | default: shop.currency | json }},
+      "display_format": {{ settings.currency_display_format | json }},
+      "money_format": {{ shop[settings.currency_display_format] | strip_html | json }},
+      "money_format_no_currency": {{ shop.money_format | strip_html | json }},
+      "money_format_currency": {{ shop.money_with_currency_format | strip_html | json }}
+    }
+  }
+</script>
+
+{% if section.settings.announcement_enabled %}
+  <section class="site-header-announcement" >
+    <span class="site-header-announcement--message">{{ section.settings.announcement_message }}</span>
+    {% comment %}
+    <span class="site-header-announcement--close-button action--hide-announcement">
+      {% include 'icon-close' %}
+    </span>
+    {% endcomment %}
+  </section>
+{% endif %}
+
+<section
+  class="site-header"
+  data-site-header-main
+  {% if section.settings.sticky_header %}data-site-header-sticky{% endif %}>
+
+
+
+  <div class="site-header-menu-toggle">
+    <a class="site-header-menu-toggle--button" href="#" data-menu-toggle>
+      <span class="toggle-icon--bar toggle-icon--bar-top"></span>
+      <span class="toggle-icon--bar toggle-icon--bar-middle"></span>
+      <span class="toggle-icon--bar toggle-icon--bar-bottom"></span>
+      <span class="show-for-sr">{{ 'general.accessibility.menu' | t }}</span>
+    </a>
+  </div>
+
+  <div class="site-header-main">
+
+    <div class="site-header-logo">
+      <a
+        class="site-logo"
+        href="/">
+        {% if section.settings.logo %}
+          {% assign logo_alt = section.settings.logo.alt | escape %}
+          {% if logo_alt == '' %}
+            {% assign logo_alt = shop.name | escape | strip %}
+          {% endif %}
+          <img
+            class="site-logo-image"
+            src="{{ section.settings.logo | img_url: '275x' }}"
+            {% if section.settings.logo.width >= 200 %}
+              srcset="{{ section.settings.logo | img_url: '275x', scale: 2 }} 2x"
+            {% endif %}
+            alt="{{ logo_alt }}">
+        {% else %}
+          <span class="site-logo-text">
+            {{ shop.name }}
+          </span>
+        {% endif %}
+      </a>
+    </div>
+
+    {%
+      include 'header-search-form',
+      quick_links: linklists[section.settings.quick_links],
+      enable_live_search: section.settings.enable_live_search,
+      enable_images: section.settings.enable_live_search_images,
+      enable_content: section.settings.enable_live_search_articles_pages
+    %}
+
+  </div>
+  
+  <div class="site-header-actions-container">
+      {% include 'site-header-actions' %}
+  </div>
+  
+
+  <div class="site-header-cart">
+    <a class="site-header-cart--button" href="/cart">
+      <span
+        class="site-header-cart--count {% if cart.item_count > 0 %}visible{% endif %}"
+        data-header-cart-count="{% if cart.item_count > 0 %}{{ cart.item_count }}{% endif %}">
+      </span>
+
+      {% include 'icon-cart' %}
+      <span class="show-for-sr">{{ 'general.accessibility.cart' | t }}</span>
+    </a>
+  </div>
+</section>
+
+{%- capture site_navigation_classes -%}
+  site-navigation-wrapper
+{%- endcapture -%}
+<div class="{{ site_navigation_classes }}" data-site-navigation id="site-header-nav">
+  <nav class="site-navigation">
+    {%
+      include 'navmegamenu'
+    %}
+
+  </nav>
+</div>
+
+{% include 'site-mobile-nav' %}
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "site-header-wrapper",
+  "settings": [
+    {
+      "id": "sticky_header",
+      "type": "checkbox",
+      "label": "Enable sticky header",
+      "default": true
+    },
+    {
+      "id": "logo",
+      "type": "image_picker",
+      "label": "Logo image",
+      "info": "200 x 80px .png recommended"
+    },
+    {
+      "type": "header",
+      "content": "Search"
+    },
+    {
+      "id": "enable_live_search",
+      "type": "checkbox",
+      "label": "Enable live search",
+      "default": true
+    },
+    {
+      "id": "enable_live_search_images",
+      "type": "checkbox",
+      "label": "Show product images in live search results",
+      "default": true
+    },
+    {
+      "id": "enable_live_search_articles_pages",
+      "type": "checkbox",
+      "label": "Show blog posts and pages in live search results",
+      "default": true
+    },
+    {
+      "id": "quick_links",
+      "type": "link_list",
+      "label": "Quick links",
+      "info": "Displays menu links below the search box the first time it is opened."
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "id": "menu",
+      "type": "link_list",
+      "label": "Main menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "header",
+      "content": "Announcement"
+    },
+    {
+      "id": "announcement_message",
+      "type": "textarea",
+      "label": "Message",
+      "info": "Add the title of the menu from which you want the mega-nav to stem."
+    },
+    {
+       "type": "checkbox",
+       "id": "announcement_enabled",
+       "default": false,
+       "label": "Activate"
+    },
+    {
+      "type": "header",
+      "content": "Mega Menu"
+    },
+    {
+      "type": "paragraph",
+      "content": "Add menu items below"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "meganav",
+      "name": "Menu item",
+      "settings": [
+        {
+          "id": "menu-item",
+          "type": "text",
+          "label": "Menu item",
+          "default": "menu item"
+        },
+        {
+          "id": "mega-menu-items",
+          "type": "text",
+          "label": "Menus to add to megamenu",
+          "default": "menu 1, menu 2, etc"
+        },
+        {
+          "id": "link-option",
+          "type": "url",
+          "label": "Link to a page (disables megamenu)"
+        },
+        {
+          "id": "banner",
+          "type": "image_picker",
+          "label": "Add a banner to this megamenu"
+        },
+        {
+          "id": "image-link",
+          "type": "url",
+          "label": "Image link"
+        }
+      ],
+      "limit": 10
+    }
+  ]
+}
+
+{% endschema %}

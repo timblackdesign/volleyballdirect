@@ -1,0 +1,71 @@
+<!-- <script
+  type="application/json"
+  data-section-type="static-product"
+  data-section-id="{{ section.id }}"
+  data-section-data>
+  {
+    "settings": {
+      "cart_redirection": {{ settings.product_cart_redirect | json }},
+      "layout": {{ section.settings.layout | json }},
+      "money_format": {{ shop.money_format | strip_html | json }}
+    },
+    "context": {
+      "product_available": {{ 'product.buttons.add_to_cart' | t | json }},
+      "product_unavailable": {{ 'product.buttons.sold_out' | t | json }}
+    },
+    "product": {{ product | json }}
+  }
+</script> -->
+
+{% if section.settings.enable_related_products %}
+  {% assign related_collection = collection %}
+  {% if collection == null or collection.handle == 'frontpage' or collection.handle == 'all' %}
+    {% assign collection_found = false %}
+    {% for c in product.collections %}
+      {% if collection_found == false and c.handle != 'frontpage' and c.handle != 'all' %}
+        {% assign collection_found = true %}
+        {% assign related_collection = c %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+
+  {% if related_collection.products.size > 0 %}
+    {%
+      include 'related-products',
+      current_product: product.id
+    %}
+  {% endif %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "Product pages",
+  "class": "product--section",
+  "settings": [
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "layout--two-col",
+          "label": "2 columns"
+        },
+        {
+          "value": "layout--three-col",
+          "label": "3 columns"
+        }
+      ],
+      "default": "layout--three-col"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_related_products",
+      "label": "Enable related products",
+      "default": false
+    }
+  ]
+}
+
+{% endschema %}

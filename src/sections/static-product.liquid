@@ -1,0 +1,274 @@
+<script
+  type="application/json"
+  data-section-type="static-product"
+  data-section-id="{{ section.id }}"
+  data-section-data>
+  {
+    "settings": {
+      "cart_redirection": {{ settings.product_cart_redirect | json }},
+      "layout": {{ section.settings.layout | json }},
+      "money_format": {{ shop.money_format | strip_html | json }}
+    },
+    "context": {
+      "product_available": {{ 'product.buttons.add_to_cart' | t | json }},
+      "product_unavailable": {{ 'product.buttons.sold_out' | t | json }}
+    },
+    "product": {{ product | json }}
+  }
+</script>
+
+{% include 'breadcrumbs' %}
+
+<section class="product--container {{ section.settings.layout }}" data-product-wrapper>
+  {%
+    include 'product',
+    layout: section.settings.layout,
+    is_product_modal: false
+  %}
+</section>
+
+{% include 'product-callouts' %}
+
+{% include 'product-tabs' %}
+
+{% if section.settings.enable_related_products %}
+  {% assign related_collection = collection %}
+  {% if collection == null or collection.handle == 'frontpage' or collection.handle == 'all' %}
+    {% assign collection_found = false %}
+    {% for c in product.collections %}
+      {% if collection_found == false and c.handle != 'frontpage' and c.handle != 'all' %}
+        {% assign collection_found = true %}
+        {% assign related_collection = c %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+
+  {% if related_collection.products.size > 0 %}
+    {%
+      include 'related-products',
+      current_product: product.id
+    %}
+  {% endif %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "Product pages",
+  "class": "product--section",
+  "settings": [
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "layout--two-col",
+          "label": "2 columns"
+        },
+        {
+          "value": "layout--three-col",
+          "label": "3 columns"
+        }
+      ],
+      "default": "layout--three-col"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_related_products",
+      "label": "Enable related products",
+      "default": false
+    },
+    {
+       "type":  "header",
+       "content":  "Product Tabs"
+    },
+    {
+       "type": "checkbox",
+       "id": "tab1_enabled",
+       "default": true,
+       "label": "Show description tab"
+    },
+    {
+       "type": "checkbox",
+       "id": "tab2_enabled",
+       "default": true,
+       "label": "Show reviews tab"
+    },
+    {
+       "type":      "header",
+       "content":   "Tab 3 (Sizing Guide)"
+    },
+    {
+       "type": "text",
+       "id": "tab3-label",
+       "label": "Label",
+       "info": "Sizing guide content must be edited in product-tab-sizing-charts.liquid"
+    },
+    {
+       "type": "checkbox",
+       "id": "tab3_enabled",
+       "label": "Enable",
+       "default": false
+    },
+    {
+       "type":    "header",
+       "content":   "Tab 4"
+    },
+    {
+       "type": "text",
+       "id": "tab4-label",
+       "label": "Label"
+    },
+    {
+       "type": "page",
+       "id": "tab4-content",
+       "label": "Content"
+    },
+    {
+       "type": "checkbox",
+       "id": "tab4_enabled",
+       "label": "Enable",
+       "default": false
+    },
+
+    {
+       "type":      "header",
+       "content":   "Tab 5"
+    },
+    {
+       "type": "text",
+       "id": "tab5-label",
+       "label": "Label"
+    },
+    {
+       "type": "page",
+       "id": "tab5-content",
+       "label": "Content"
+    },
+    {
+       "type": "checkbox",
+       "id": "tab5_enabled",
+       "label": "Enable",
+       "default": false
+    },
+    {
+       "type":      "header",
+       "content":   "Tab 6"
+    },
+    {
+       "type": "text",
+       "id": "tab6-label",
+       "label": "Label"
+    },
+    {
+       "type": "page",
+       "id": "tab6-content",
+       "label": "Content"
+    },
+    {
+       "type": "checkbox",
+       "id": "tab6_enabled",
+       "label": "Enable",
+       "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "promotion",
+      "name": "Promotional item",
+      "settings": [
+      {
+           "type": "checkbox",
+           "id": "is_disabled",
+           "default": false,
+           "label": "Unpublish this promo"
+        },
+        {
+          "id": "image",
+          "type": "image_picker",
+          "label": "Image"
+        },
+        {
+           "type": "checkbox",
+           "id": "is_background_image",
+           "default": true,
+           "label": "Use as background image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Grid"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Use this section to welcome customers to your store, say a bit about your brand, or share news.",
+          "info": "Limited to 120 characters."
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Text color",
+          "default": "#4d4d4d"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background color",
+          "default": "#eee"
+        },
+        {
+          "type": "url",
+          "id": "block_link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text"
+        },
+        {
+          "id": "button_style",
+          "type": "select",
+          "label": "Button style",
+          "options": [
+            {
+              "value": "primary",
+              "label": "Primary"
+            },
+            {
+              "value": "secondary",
+              "label": "Secondary"
+            },
+            {
+              "value": "tertiary",
+              "label": "Tertiary"
+            }
+          ],
+          "default": "primary"
+        },
+        {
+          "type": "select",
+          "id": "promo_width",
+          "label": "Width",
+          "options": [
+            {
+              "value": "half-width",
+              "label": "Half width"
+            },
+            {
+              "value": "full-width",
+              "label": "Full width"
+            }
+          ],
+          "default": "half-width"
+        }
+      ]
+    }
+  ]
+}
+
+{% endschema %}

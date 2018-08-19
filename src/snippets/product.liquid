@@ -1,0 +1,193 @@
+{% comment %}
+  @param layout {String}
+    Layout type
+
+  @param is_product_modal {Bool}
+    Is the snippet being loaded in a QuickShop
+{% endcomment %}
+
+{% assign enable_social_sharing = settings.product_social_sharing %}
+
+{% assign selected_variant = product.selected_or_first_available_variant %}
+
+{% assign selected_image = selected_variant.image | default: product.featured_image %}
+{% assign compare_at_price = selected_variant.compare_at_price %}
+{% assign price = selected_variant.price %}
+{% assign product_available = product.available %}
+
+{% assign on_sale = false %}
+{% if compare_at_price > price %}
+  {% assign on_sale = true %}
+{% endif %}
+
+{%- capture share_buttons -%}
+  {% assign social_image = product | img_url: '1024x' %}
+  {% assign social_url = shop.url | append: product.url %}
+  {%-
+    include 'share-buttons',
+    snippet_title: 'general.share_buttons.title',
+    social_image: social_image,
+    social_title: product.title,
+    social_url: social_url
+  -%}
+{%- endcapture  -%}
+
+<article class="product--outer">
+  {% comment %}
+    Product slideshow, never moves
+  {% endcomment %}
+  <div class="product-gallery" data-product-gallery>
+    {%
+      include 'product-gallery',
+      selected_image: selected_image
+    %}
+  </div>
+
+  <div class="product-main">
+    <div class="product-details" data-product-details>
+      {% if is_product_modal %}
+        <h2 class="product-title">
+          <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+        </h2>
+      {% else %}
+        <h1 class="product-title">
+          {{ product.title }}
+        </h1>
+      {% endif %}
+
+      <div class="product-vendor-and-ratings">
+
+            {% if settings.product_show_vendor and product.vendor != blank %}
+              <span class="product-vendor">
+                {{ 'product.general.by_vendor' | t: vendor: product.vendor }}
+              </span>
+            {% endif %}
+
+            {% if settings.product_ratings_reviews %}
+              <span class="product-ratings">
+                <span class="shopify-product-reviews-badge" data-id="{{ product.id }}">
+                  <span class="spr-badge">
+                    <span class="spr-starrating spr-badge-starrating">
+                      <i class="spr-icon spr-icon-star-empty"></i>
+                      <i class="spr-icon spr-icon-star-empty"></i>
+                      <i class="spr-icon spr-icon-star-empty"></i>
+                      <i class="spr-icon spr-icon-star-empty"></i>
+                      <i class="spr-icon spr-icon-star-empty"></i>
+                    </span>
+                  </span>
+                </span>
+              </span>
+            {% endif %}
+      </div>
+
+      <div class="product-sku">
+          SKU:<strong> {{ product.selected_or_first_available_variant.sku }}</strong>
+      </div>
+
+      <div class="product-pricing">
+        {%
+          include 'product-badge',
+          class_root: 'product',
+          product_available: product_available,
+          on_sale: on_sale,
+          price: price,
+          compare_at_price: compare_at_price
+        %}
+
+        {%
+          include 'product-price',
+          class_root: 'product',
+          price: price,
+          price_varies: false,
+          compare_at_price: compare_at_price,
+          compare_at_price_varies: false,
+          on_sale: on_sale,
+          emphasize_price: false
+        %}
+
+        {% if product.selected_or_first_available_variant.inventory_quantity <= 12 %}
+            <span class="product--quantity-available" >
+              <span class="product--quantity-available-value" >
+                {% if product.selected_or_first_available_variant.inventory_quantity <= 0 %}
+                  0
+                {% else %}
+                  {{ product.selected_or_first_available_variant.inventory_quantity }}
+                {% endif %}
+              </span>
+              <span class="product--quantity-available-label" >in stock</span>
+            </span>
+        {% endif %}
+
+      </div>
+
+      {% include 'product-shipping-lead-time' %}
+
+    </div>
+
+    {% comment %}
+      Product description field, never moves
+    {% endcomment %}
+    {% if product.description != blank %}
+      <div class="product-description rte" data-product-description>
+        {% comment %}
+          {{ product.description }}
+        {% endcomment %}
+      </div>
+    {% endif %}
+
+
+    {% comment %}
+      Product form original location, will remain unless is 3 column layout
+    {% endcomment %}
+    <div class="product-form--regular" data-product-form-regular>
+      <div data-product-form-area>
+        {% if is_product_modal %}
+          <div data-product-quickshop-message class="product-message--container"></div>
+        {% endif %}
+
+        {%
+          include 'product-form',
+          product: product,
+          selected_variant: selected_variant
+        %}
+
+        <div class="product-mcafee-badge">
+          <script src="https://cdn.ywxi.net/js/inline.js?t=103"></script>
+        </div>
+        
+        {% for tag in product.tags %}
+            {% if tag == 'no promo' %}
+              <div class="product--no-promo">Currently not eligible for online promotions or discounts.</div>
+              {% break %}
+            {% endif %}
+        {% endfor %}
+
+        {% if enable_social_sharing and is_product_modal == false %}
+        <div class="product-share-buttons">
+          {{ share_buttons | strip_newlines }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if enable_social_sharing and is_product_modal %}
+      {{ share_buttons | strip_newlines }}
+    {% endif %}
+  </div>
+
+  {% comment %}
+    If is a 3 column layout, the form will move here at $bp-large (layout.isBreakpoint('L'))
+  {% endcomment %}
+  {% if layout == 'layout--three-col' %}
+    <div class="product-form--alt" data-product-form-alt></div>
+  {% endif %}
+</article>
+
+<script>
+  // var productOptions = [];
+  // {% for option in product.options %}
+  //   var optionObj = {};
+  //   optionObj[ {{ forloop.index0 }} ] = "{{ product.options[forloop.index0] }}";
+  //   productOptions.push(optionObj);
+  // {% endfor %}
+</script>

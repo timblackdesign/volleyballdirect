@@ -1,0 +1,39 @@
+.featured-collection--heading {
+	@include layout-flex();
+
+	margin-top: grid-pixels(0, 1);
+
+	// @media screen and ( max-width: $small ) {
+	// 	margin-top: grid-pixels(0, 1);
+	// }
+
+	@media screen and ( min-width: $small ) {
+		margin: grid-pixels(0, 2 ) 0 0;
+	}
+
+	@media screen and ( min-width: $medium ) {
+		margin: grid-pixels(0, 2.5 ) 0 0;
+	}
+
+	.home-section--title {
+		@include type-headline($size: 28px, $marginbottom: 0);
+
+		margin: grid-pixels(0, 1) 0;
+
+		@media screen and ( min-width: $small ) {
+			margin: 0 0 0;
+		}
+
+		@media screen and ( min-width: $medium ) {
+			margin: 0 0 0;
+		}
+
+		@media screen and ( min-width: $large ) {
+			margin: 0 0 0;
+		}
+	}
+}
+
+.featured-collection--more-button {
+	@include button-arrow();
+}

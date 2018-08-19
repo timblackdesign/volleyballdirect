@@ -1,0 +1,117 @@
+{% comment %}
+  @param menu LinkedList
+         The menu handle to look up.
+
+  @param depth Number
+         The starting depth to use for the class names.
+
+  @param max_depth Number
+         The maximum depth to traverse.
+
+  @param is_submenu Bool
+         Add submenu classes
+
+  @param is_site_nav Bool
+         Determine whether original nav is site-navigation
+
+  @param has_triggers Bool
+         Adds in subnav triggers
+
+  @param submenu_arrows Bool
+         Option to display dropdown arrows
+{% endcomment %}
+
+{%- capture navmenu_classes -%}
+  navmenu
+  navmenu-depth-{{ depth }}
+  {% if is_submenu %}navmenu-submenu{% endif %}
+{%- endcapture -%}
+
+<ul
+  class="{{ navmenu_classes | strip_newlines }}"
+  {% if has_triggers and is_submenu %}data-navmenu-submenu{% endif %}>
+  {% assign is_submenu = false %}
+  {% assign show_meganav = false %}
+
+  {% for link in linklists[menu].links %}
+    {% assign d = depth | plus: 1 %}
+
+    {% assign show_subnav = true %}
+    {% if d > max_depth or linklists[link.handle] == blank %}
+      {% assign show_subnav = false %}
+    {% endif %}
+
+    {% assign meganav_trigger = section.settings.meganav_trigger | handle | strip %}
+    {% if link.handle == meganav_trigger and section.blocks.size > 0 and depth == 1 %}
+      {% assign show_meganav = true %}
+    {% endif %}
+
+    {% unless show_subnav or show_meganav %}
+      <li class="navmenu-item navmenu-id-{{ link.handle }}">
+        <a class="navmenu-link {% if link.active %}navmenu-link--active{% endif %}" href="{{ link.url }}">{{ link.title }}</a>
+      </li>
+    {% else %}
+      {%- capture navmenu_item_classes -%}
+        navmenu-item
+        navmenu-item-parent
+        navmenu-id-{{ link.handle }}
+        {% if show_meganav %}navmenu-meganav-item-parent{% endif %}
+      {%- endcapture -%}
+
+      <li
+        class="{{ navmenu_item_classes | strip_newlines }}"
+        {% if has_triggers %}data-navmenu-trigger{% endif %}
+        {% if has_triggers and show_meganav %}data-navmenu-meganav-trigger{% endif %}>
+        <a
+          class="navmenu-link navmenu-link-parent {% if link.active %}navmenu-link--active{% endif %}"
+          href="{{ link.url }}">
+          {{ link.title }}
+
+          {% if submenu_arrows %}
+            <span class="navmenu-icon navmenu-icon-depth-{{ depth }}">
+              {% include 'icon-chevron-down-small' %}
+            </span>
+          {% endif %}
+        </a>
+
+        {% if show_meganav %}
+          {%- capture meganav_classes -%}
+            navmenu-submenu
+            navmenu-meganav
+            {% if is_site_nav %}navmenu-meganav--desktop{% endif %}
+          {%- endcapture -%}
+          <div class="{{ meganav_classes | strip_newlines }}" data-navmenu-submenu data-meganav-menu>
+            <div class="navmenu-meganav--scroller">
+              {% comment %}
+                Triggers are needed for Mobile Menu's Meganav, but not the main navigation
+              {% endcomment %}
+              {% assign meganav_has_triggers = true %}
+              {% if is_site_nav %}
+                {% assign meganav_has_triggers = false %}
+              {% endif %}
+              {%
+                include 'meganav-navmenu',
+                blocks: section.blocks
+                depth: d,
+                max_depth: max_depth,
+                is_submenu: true,
+                meganav_has_triggers: meganav_has_triggers,
+                submenu_arrows: submenu_arrows
+              %}
+            </div>
+          </div>
+        {% else %}
+          {%
+            include 'navmenu',
+            menu: link.handle,
+            depth: d,
+            max_depth: max_depth,
+            is_submenu: true,
+            has_triggers: has_triggers,
+            submenu_arrows: submenu_arrows
+          %}
+        {% endif %}
+      </li>
+    {% endunless %}
+  {% endfor %}
+</ul>

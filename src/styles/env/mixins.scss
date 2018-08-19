@@ -1,0 +1,30 @@
+@mixin layout-flex($align: center, $justify: space-between, $direction: row){
+    align-items: $align;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: $justify;
+    flex-direction: $direction;
+}
+
+@mixin type-headline($size: 36px, $marginbottom: grid-pixels(0, 2) ){
+    font-family: League Gothic;
+    font-size: $size;
+    margin-bottom: $marginbottom;
+    text-transform: uppercase;
+}
+
+@mixin button-arrow(){
+    @include layout-flex($justify: flex-end);
+
+	color: $grey;
+	font-weight: bold;
+	text-decoration: none;
+
+	@media screen and ( max-width: $medium ) {
+		margin-right: grid-pixels(0, .5);
+	}
+
+	svg {
+		margin-left: grid-pixels(0, .5);
+	}
+}

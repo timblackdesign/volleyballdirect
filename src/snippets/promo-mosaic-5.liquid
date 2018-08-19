@@ -1,0 +1,27 @@
+<div class="promo-mosaic--row">
+  <div class="promo-mosaic--column promo-mosaic--column-wide">
+    {%
+      include 'promo-block',
+      block: section.blocks[0],
+    %}
+    {%
+      include 'promo-block',
+      block: section.blocks[1],
+    %}
+  </div>
+
+  <div class="promo-mosaic--column promo-mosaic--column-narrow">
+    {%
+      include 'promo-block',
+      block: section.blocks[2],
+    %}
+    {%
+      include 'promo-block',
+      block: section.blocks[3],
+    %}
+    {%
+      include 'promo-block',
+      block: section.blocks[4],
+    %}
+  </div>
+</div>

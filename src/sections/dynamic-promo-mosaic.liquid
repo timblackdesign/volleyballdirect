@@ -1,0 +1,164 @@
+<script
+  type="application/json"
+  data-section-id="{{ section.id }}"
+  data-section-type="dynamic-promo-mosaic">
+</script>
+
+{% if section.settings.is_disabled == false %}
+  <section class="promo-mosaic--container">
+    {% if section.settings.title != blank %}
+      <h1 class="home-section--title">
+        {{ section.settings.title | escape }}
+      </h1>
+    {% endif %}
+
+    <div class="home-section--content promo-mosaic--height-{{ section.settings.section_height }}">
+      {% if section.blocks.size > 0 %}
+        <div class="promo-mosaic--inner promo-mosaic--layout-{{ section.blocks.size }}">
+          {% assign layout_name = 'promo-mosaic-' | append: section.blocks.size %}
+          {% include layout_name %}
+        </div>
+      {% endif %}
+    </div>
+
+    {%
+      include 'promo-block-background',
+      blocks: section.blocks
+    %}
+  </section>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Mosaic",
+  "class": "promo-mosaic--section",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Mosaic"
+    },
+    {
+      "id": "section_height",
+      "type": "select",
+      "label": "Section height",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "small"
+    },
+    {
+       "type": "checkbox",
+       "id": "is_disabled",
+       "default": false,
+       "label": "Unpublish"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "promotion",
+      "name": "Promotional item",
+      "settings": [
+        {
+          "id": "image",
+          "type": "image_picker",
+          "label": "Image"
+        },
+        {
+           "type": "checkbox",
+           "id": "is_background_image",
+           "default": true,
+           "label": "Use as background image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Mosaic"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Use this section to welcome customers to your store, say a bit about your brand, or share news.",
+          "info": "Limited to 120 characters."
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Text color",
+          "default": "#4d4d4d"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background color",
+          "default": "#eeeeee"
+        },
+        {
+          "type": "url",
+          "id": "block_link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text"
+        },
+        {
+          "id": "button_style",
+          "type": "select",
+          "label": "Button style",
+          "options": [
+            {
+              "value": "primary",
+              "label": "Primary"
+            },
+            {
+              "value": "secondary",
+              "label": "Secondary"
+            }
+          ],
+          "default": "primary"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mosaic",
+      "category": "Image",
+      "blocks": [
+        {
+          "type": "promotion"
+        },
+        {
+          "type": "promotion"
+        },
+        {
+          "type": "promotion"
+        }
+      ]
+    }
+  ]
+}
+
+{% endschema %}

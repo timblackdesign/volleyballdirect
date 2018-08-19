@@ -1,0 +1,18 @@
+.site-mobile-nav {
+	.site-header-actions {
+		display: flex;
+		flex-direction: column;
+		height: auto;
+		padding-right: 0;
+
+		.currency-converter-wrapper svg {
+			right: 5px;
+		}
+	}
+
+	.mobile-nav-content .navmenu-link {
+		color: $black;
+		font-weight: 400;
+		text-transform: uppercase;
+	}
+}

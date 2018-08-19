@@ -1,0 +1,50 @@
+{% assign has_link = false %}
+{% if block.settings.block_link != blank %}
+  {% assign has_link = true %}
+{% endif %}
+
+{%- capture classes -%}
+  promo-block
+  promo-block--{{ block.id }}
+  {{ additional_classes | strip_newlines }}
+
+  {%- if block.settings.is_background_image -%}
+  has-background-image 
+  {%- else -%}
+  has-feature-image  
+  {%- endif -%}
+
+{%- endcapture -%}
+
+<article
+  class="{{ classes | replace: '  ', ' ' | strip_newlines }} {{ bg-img-class}}"
+  {{ block.shopify_attributes }}>
+  <a
+    class="promo-block--content {% unless has_link %}promo-block--unlinked{% endunless %}"
+    {% if has_link %}href="{{ block.settings.block_link }}"{% endif %}
+    data-promo-block-content>
+
+    {% if block.settings.title %}
+      <h2 class="promo-block--header">
+        {{ block.settings.title | escape }}
+      </h2>
+    {% endif %}
+
+    {% if block.settings.text %}
+      <p class="promo-block--text">
+        {{ block.settings.text | escape | truncate: 120 }}
+      </p>
+    {% endif %}
+
+    {% if block.settings.button_text != blank and block.settings.block_link != blank %}
+      <span
+        class="button-{{ block.settings.button_style }} promo-block--button">
+        {{ block.settings.button_text | escape }}
+      </span>
+    {% endif %}
+
+    <span class="promo-block--expander">
+      {% include 'icon-chevron-down' %}
+    </span>
+  </a>
+</article>

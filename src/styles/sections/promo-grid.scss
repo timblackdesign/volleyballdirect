@@ -1,0 +1,24 @@
+.promo-grid--section {
+	.promo-block {
+		border-radius: $card-border-radius;
+	}
+	.promo-block.promo-grid--full-width {
+		border-radius: 0;
+	}	
+}
+
+.promo-grid--container {
+
+	.promo-block--header {
+
+		@media screen and ( max-width: $medium ) {
+			max-width: 70%;
+		}
+	    
+	}
+	.promo-block--content {
+		@media screen and ( min-width: $small + 1 ) {
+			padding: 60px 40px;
+		}
+	}
+}

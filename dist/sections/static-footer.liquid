@@ -1,0 +1,220 @@
+<script
+  type="application/json"
+  data-section-id="{{ section.id }}"
+  data-section-type="static-footer">
+</script>
+
+<section class="site-footer-wrapper">
+  {% if section.settings.call_to_action_enabled == true %}
+  <div class="site-footer-item site-footer-item--calltoaction">
+    <span class="site-footer-item--headline" >{{ section.settings.call_to_action_headline }}</span>
+    <a href="{{ section.settings.call_to_action_link }}" class="button-primary button-dark">{{ section.settings.call_to_action_buttontext }}</a>
+  </div>
+  {% endif %}
+  {% if section.blocks.size %}
+    <div class="site-footer-item">
+      <div class="site-footer-blocks column-count-{{ section.blocks.size }}">
+        {% for block in section.blocks %}
+          {% include 'footer-block' %}
+        {% endfor %}
+      </div>
+      <div class="site-footer-callouts">
+        <span class="site-footer-callout site-footer-callout--bbb">
+          <a target="_blank" href="https://www.bbb.org/western-virginia/business-reviews/sporting-goods-retail/direct-sports-inc-in-pearisburg-va-629#sealclick">
+            {% include 'logo_bbb' %}
+          </a>         
+        </span>
+        <span class="site-footer-callout site-footer-callout--mcafee">
+          <a target="_blank" href="https://www.mcafeesecure.com/verify?host=directsports.com">
+            {% include 'logo_mcafee' %}
+          </a>        
+        </span>
+        <span class="site-footer-callout site-footer-callout--geotrust">
+          <a target="_blank" href="">
+            {% include 'logo_geotrust' %}
+          </a>
+        </span>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="site-footer-item">
+    <div class="site-footer-information">
+      <div class="site-footer-left">
+
+        {% if linklists[section.settings.additional_menu].links != blank %}
+          <nav class="site-footer-navigation">
+            {%
+              include 'navmenu',
+              menu: section.settings.additional_menu,
+              depth: 1,
+              max_depth: 1
+            %}
+          </nav>
+        {% endif %}
+
+        <p class="site-footer-credits">
+          {% assign year = 'now' | date: '%Y' %}
+
+          {{ 'footer.general.copyright_html' | t: year: year, shop_name: shop.name }}
+        </p>
+      </div>
+
+
+      {% if section.settings.payment_icons and shop.enabled_payment_types.size > 0 %}
+        <div class="site-footer-center">
+          {% comment %}
+            - Test shop payment options against Shopify's provided list of payment gateways
+              (https://help.shopify.com/themes/customization/store/add-credit-card-icons)
+          {% endcomment %}
+          {% assign payment_icons_available = 'amazon_payments|american_express|android_pay|apple_pay|bitcoin|cirrus|dankort|diners_club|discover|dogecoin|dwolla|forbrugsforeningen|interac|jcb|litecoin|maestro|master|paypal|visa|stripe|shopify_pay' | split: '|' %}
+          <ul class="payment-icons">
+            {%- for type in shop.enabled_payment_types -%}
+              {%- if payment_icons_available contains type -%}
+                <li class="payment-icons-item">
+                  {%- include 'icon-payment-icons', id: type -%}
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+          
+        </div>
+      {% endif %}
+
+      <div class="site-footer-right">
+        <p>All Baseball, All Softball, All the Time. ⚾️</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Footer",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Payment icons"
+    },
+    {
+      "type": "checkbox",
+      "id": "payment_icons",
+      "label": "Enable payment icons",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "checkbox",
+      "id": "call_to_action_enabled",
+      "label": "Enable call to action",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "call_to_action_headline",
+      "label": "Headline"
+    },
+    {
+      "type": "url",
+      "id": "call_to_action_link",
+      "label": "Link"
+    },
+    {
+      "type": "text",
+      "id": "call_to_action_buttontext",
+      "label": "Button text"
+    },
+    {
+      "type": "header",
+      "content": "Additional menu"
+    },
+    {
+      "type": "link_list",
+      "id": "additional_menu",
+      "label": "Menu",
+      "default": "footer"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu",
+      "settings": [
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu",
+          "default": "main-menu"
+        }
+      ]
+    },
+    {
+      "type": "rich_text",
+      "name": "Rich text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Rich text"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Use this section to welcome customers to your store, say a bit about your brand, or share news and seasonal promotions.</p>"
+        }
+      ]
+    },
+    {
+      "type": "social_accounts",
+      "name": "Social accounts",
+      "limit": 1,
+      "settings": [
+       {
+         "type": "paragraph",
+         "content": "Social links can be managed in your General settings."
+       }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Subscribe"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Invite customers to join your mailing list.</p>"
+        }
+      ]
+    }
+  ],
+  "default": {
+    "settings": {
+      "additional_menu": "footer"
+    },
+    "blocks": [
+      {
+        "type": "menu",
+        "settings": {}
+      },
+      {
+        "type": "newsletter",
+        "settings": {}
+      }
+    ]
+  }
+}
+
+{% endschema %}

@@ -1,0 +1,110 @@
+<section class="product-section-tabs">
+    <div id="tabs" >
+        <ul class="product-section-tablist">
+        {% if section.settings.tab1_enabled %}
+            <li><a href="#tab-1">Description</a></li>
+        {% endif %}
+
+        {% if section.settings.tab2_enabled %}
+            <li><a href="#tab-2">Reviews</a></li>
+        {% endif %}
+
+        {% if section.settings.tab3_enabled %}
+            <li><a href="#tab-3">{{ section.settings.tab3-label}}</a></li>
+        {% endif %}
+
+        {% if section.settings.tab4_enabled %}
+            <li><a href="#tab-4">{{ section.settings.tab4-label}}</a></li>
+        {% endif %}
+
+        {% if section.settings.tab5_enabled %}
+            <li><a href="#tab-5">{{ section.settings.tab5-label}}</a></li>
+        {% endif %}
+
+        {% if section.settings.tab6_enabled %}
+            <li><a href="#tab-6">{{ section.settings.tab6-label}}</a></li>
+        {% endif %}
+
+        </ul>
+        <div class="product-section-tab-container">
+        {% if section.settings.tab1_enabled %}
+            <div id="tab-1" class="product-section-tab">
+                <div class="product-section-tab-section">
+                {% comment %}
+                    <h2 class="product-section-tab-title">{{ product.title }}</h2>
+                  {% endcomment %}
+                    <p>{{ product.description }}</p>
+                </div>
+                <div class="product-section-tab-section">
+                    <h2 class="product-section-tab-title">Stat Line</h2>
+                    <ul class="product-section-tab-list">
+                        <li class="product-section-tab-listitem product-section-tab-listitem--vendor">
+                            <span>Brand:</span>
+                            <strong>{{ product.vendor }}</strong>
+                        </li>
+                        <li class="product-section-tab-listitem product-sku">
+                            <span>SKU:</span>
+                            <strong>{{ product.selected_or_first_available_variant.sku }}</strong>
+                        </li>
+
+                        <!-- Loop through tags -->
+                        {% for tag in product.tags %}
+                            {% assign array_size = tag | split: '_' | size %}
+                            {% assign tag_name = tag | split: '_' | first %}
+                            {% if array_size > 1 %}
+                                {% unless tag_name == 'Color' or tag_name == 'Size' %}
+                                  <li class="product-section-tab-listitem">
+                                      <span>{{ tag | split: '_' | first }}:</span>
+                                      <strong>{{ tag | split: '_' | last }}</strong>
+                                  </li>
+                                {% endunless %}
+                            {% endif %}
+                        {% endfor %}
+
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+        {% if section.settings.tab2_enabled %}
+            <div id="tab-2" class="product-section-tab">
+                <div class="product-section-tab-section product-section-tab-section--fullwidth">
+                    {% if settings.product_ratings_reviews %}
+                    <div class="product-section-content product-reviews--content">
+                        <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+         {% endif %}
+         {% if section.settings.tab3_enabled %}
+            <div id="tab-3" class="product-section-tab">
+                <div class="product-section-tab-section product-section-tab-section--fullwidth">
+                    {{ pages[section.settings.tab3-content].content }}
+                </div>
+            </div> 
+        {% endif %} 
+        {% if section.settings.tab4_enabled %}  
+            <div id="tab-4" class="product-section-tab">
+                <div class="product-section-tab-section product-section-tab-section--fullwidth">
+                    {{ pages[section.settings.tab4-content].content }}
+                </div>
+            </div> 
+        {% endif %} 
+        {% if section.settings.tab5_enabled %}    
+            <div id="tab-5" class="product-section-tab">
+                <div class="product-section-tab-section product-section-tab-section--fullwidth">
+                    {{ pages[section.settings.tab5-content].content }}
+                </div>
+            </div> 
+        {% endif %} 
+        {% if section.settings.tab6_enabled %}    
+            <div id="tab-6" class="product-section-tab">
+                <div class="product-section-tab-section product-section-tab-section--fullwidth">
+                  {{ pages[section.settings.tab6-content].content }}
+               </div>
+            </div> 
+        {% endif %}
+        </div>  
+    </div>
+</section>

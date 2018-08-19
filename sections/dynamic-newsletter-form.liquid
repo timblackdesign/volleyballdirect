@@ -1,0 +1,67 @@
+<section class="newsletter-form--container">
+  <div class="newsletter-form--container-inner">
+    <div class="newsletter-form--box newsletter-form--box-1">
+      <h2 class="newsletter-form--headline" >{{ section.settings.headline | escape }}</h2>
+      <span class="newsletter-form--subtext" >{{ section.settings.subtext | escape }}</span>
+    </div>
+    <div class="newsletter-form--box newsletter-form--box-2">
+
+      <!-- Begin MailChimp Signup Form -->
+      <!-- <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css"> -->
+      <div id="mc_embed_signup" class="newsletter-form--form-container" >
+      <form action="//directsports.us8.list-manage.com/subscribe/post?u=d6b964ec0f864d3f17c302eaa&amp;id=36b1e0902a" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate newsletter-form--form" target="_blank" novalidate>
+          <div id="mc_embed_signup_scroll" class="newsletter-form--form-inner" >
+        
+        <input type="email" value="" name="EMAIL" class="email newsletter-form--input" id="mce-EMAIL" placeholder="email address" required>
+          <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+          <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d6b964ec0f864d3f17c302eaa_36b1e0902a" tabindex="-1" value=""></div>
+          <input type="submit" value="{{ section.settings.buttontext | escape }}" name="subscribe" id="mc-embedded-subscribe" class="button newsletter-form--button">
+          </div>
+      </form>
+      </div>
+
+      <!--End mc_embed_signup-->
+      
+    </div>
+  </div>
+</section>
+
+<style>
+</style>
+{% schema %}
+{
+  "name": "Newsletter Form",
+  "class": "newsletter-form--section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Newsletter Form"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Get 15% Your First Order"
+    },{
+      "type": "text",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Add a line or two of subtext here to promote your newsletter."
+    },{
+      "type": "text",
+      "id": "buttontext",
+      "label": "Button text",
+      "default": "Sign Up"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter Sign Up",
+      "category": "Forms"
+    }
+  ]
+}
+
+{% endschema %}

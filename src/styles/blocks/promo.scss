@@ -1,0 +1,124 @@
+.promo-block {
+	@media screen and ( max-width: $small ) {
+		border-radius: 0 !important;
+		padding: 10px 0 !important;
+
+		.promo-block--header {
+			font-size: 36px !important;
+			margin-bottom: 0 !important;
+			max-width: 100%;
+		}
+	}
+
+	.promo-block--header {
+		line-height: 1;
+	}
+}
+.promo-block.has-feature-image, .promo-block.has-background-image {
+	@media screen and ( max-width: $medium ) {
+		margin-bottom: grid-pixels(0, 1);
+		width: 100% !important;
+	}
+}
+
+.promo-block.has-feature-image  {
+	@media screen and ( max-width: $small ) {
+		background-image: none;
+	}
+}
+
+.promo-block--header {
+
+	@include type-headline( $size: 28px, $marginbottom: 10px);	
+}
+
+.promo-block--content {
+
+	@media screen and ( max-width: $small ) {
+		padding-top: 0;
+	}		
+}
+
+.promo-block.has-feature-image .promo-block--text {
+
+	@media screen and (max-width: 859px) and (min-width: 720px) {
+		max-width: 66%;
+	}
+
+	@media screen and ( min-width: $medium ) and ( max-width: $large ) {
+		max-width: 54%;
+	}
+}
+
+.promo-block.has-background-image {
+
+	@media screen and ( min-width: $medium ) and ( max-width: $large ) {
+
+		.promo-block--header, .promo-block--text {
+			max-width: 100%;
+		}
+		
+	}
+}
+
+.promo-grid--height-small .promo-grid--inner .promo-block {
+    height: auto;
+}
+
+/* Mosaic may should be moved to Mosaic specific file */
+
+.promo-mosaic--column-wide .promo-block--header {
+	@include type-headline( $size: 50px, $marginbottom: 20px );
+	line-height: 1;
+}
+
+.promo-mosaic--column-narrow .promo-block--header {
+	@include type-headline( $marginbottom: 20px );
+	line-height: 1;
+}
+
+.promo-mosaic--row {
+	@media screen and ( max-width: $medium ) {
+		flex-wrap: wrap;
+		margin-bottom: 0;
+	}
+}
+
+.promo-mosaic--inner {
+	@media screen and ( max-width: $medium ) {
+		height: auto !important;
+	}
+}
+
+.promo-mosaic--column {
+
+	@media screen and ( max-width: $medium ) {
+		margin-bottom: grid-pixels(0, 1);
+		padding: 0 !important;
+		width: 100% !important;
+	}
+
+	article {
+		padding: grid-pixels(0, 1.5);
+	}
+}
+
+.promo-mosaic--column {
+	@media screen and ( min-width: $small ) {
+		margin-bottom: 0 !important;
+	}	
+}
+
+.promo-mosaic--layout-4 .promo-mosaic--row:last-child {
+    @media screen and ( min-width: $small ) and ( max-width: $medium ) {
+		margin-top: 0 !important;
+	}
+}
+
+.promo-block--price {
+	font-size: 25px;
+	margin: 10px 0;
+}
+.promo-block--text {
+	font-size: 17px !important;
+}

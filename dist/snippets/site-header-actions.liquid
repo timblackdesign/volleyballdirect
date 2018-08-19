@@ -1,0 +1,46 @@
+<ul class="site-header-actions">
+  <li class="site-header-account-link">
+      <a href="tel:{{ shop.phone | remove: '(' | replace: ') ', '-' }}">Call {{ shop.phone }}</a>
+    </li>
+  {% if shop.customer_accounts_enabled %}
+    {% unless customer %}
+      <li class="site-header-account-link">
+        <a href="/account/login">
+          {{ 'header.account.login' | t }}
+        </a>
+      </li>
+    {% else %}
+      <li class="site-header-account-link">
+        <a href="/account">{{ 'header.account.title' | t }}</a>
+      </li>
+
+      <li class="site-header-account-link">
+        <a href="/account/logout">
+          {{ 'header.account.logout' | t }}
+        </a>
+      </li>
+    {% endunless %}
+  {% endif %}
+
+  {% if settings.enable_currency_converter %}
+    <li class="currency-converter-wrapper">
+      <div class="form-field-select-wrapper no-label">
+        <select
+          class="form-field-input form-field-select"
+          name="currencies"
+          aria-label="{{ 'header.converter.label' | t }}"
+          data-currency-converter>
+          {% capture supported_currencies %}USD,EUR,GBP,CAD,ARS,AUD,BBD,BDT,BSD,BHD,BRL,BOB,BND,BGN,MMK,KYD,CLP,CNY,COP,CRC,HRK,CZK,DKK,DOP,XCD,EGP,XPF,FJD,GHS,GTQ,GYD,GEL,HKD,HUF,ISK,INR,IDR,NIS,JMD,JPY,JOD,KZT,KES,KWD,LVL,LTL,MXN,MYR,MUR,MDL,MAD,MNT,MZN,ANG,NZD,NGN,NOK,OMR,PKR,PYG,PEN,PHP,PLN,QAR,RON,RUB,SAR,RSD,SCR,SGD,SYP,ZAR,KRW,LKR,SEK,CHF,TWD,THB,TZS,TTD,TRY,UAH,AED,UYU,VEB,VND,ZMK,{% endcapture %}
+          {% assign store_currencies = settings.currency_converter_currencies | split: ' ' %}
+          <option value="{{ shop.currency }}" selected="selected">{{ shop.currency }}</option>
+          {% for code in store_currencies %}
+            {% if code != shop.currency and supported_currencies contains code %}
+              <option value="{{ code }}">{{ code }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+        {% include 'icon-chevron-down-small' %}
+      </div>
+    </li>
+  {% endif %}
+</ul>

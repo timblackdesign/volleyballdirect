@@ -1,0 +1,56 @@
+.productitem {
+	border-color: $card-border-color;
+	border-radius: $card-border-radius;
+	box-shadow: $card-box-shadow;
+	padding: grid-pixels(0, 1);
+}
+.productitem--info {
+	margin-top: grid-pixels(0, .5);
+}	
+.productitem--vendor {
+	@include type-headline( $size: 15px, $marginbottom: 10px );
+
+	color: $bluey-grey;
+}
+.productitem--title {
+	color: $grey;
+	font-size: 15px;
+	font-weight: bold;
+	margin: grid-pixels(0, .5) 0 0;
+
+	a {
+		&:hover {
+			color: $yellow;
+		}
+	}
+}
+.productitem--price .price--main {
+	color: $grey;
+	font-size: 18px;
+}
+.productitem--ratings {
+	display: none;
+	font-size: 18px;
+}
+
+.productitem--badge {
+	@include layout-flex( $justify: center);
+
+	background-color: $red;
+	border-radius: 2px;
+	bottom: auto;
+	font-size: 10px;
+	height: 20px;
+	padding: 0 grid-pixels(0, .5);
+	text-transform: uppercase;
+	top: 0;
+}
+
+
+
+/* Sidebar */
+.productgrid--sidebar-title {
+	@include type-headline( $size: 20px, $marginbottom: 0);
+
+	color: $grey;
+}

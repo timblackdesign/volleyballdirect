@@ -1,0 +1,18 @@
+.home-section--title {
+	@include type-headline($size: 28px);
+	
+	margin: grid-pixels(0, 2) 0;
+	text-align: left;
+
+	@media screen and ( min-width: $small ) {
+		margin: grid-pixels(0, 2.5) 0 grid-pixels(0, 1.5);
+	}
+
+	@media screen and ( min-width: $medium ) {
+		margin: grid-pixels(0, 2.5) 0 grid-pixels(0, 1.5);
+	}
+
+	@media screen and ( min-width: $large ) {
+		margin: grid-pixels(0, 2) 0 grid-pixels(0, 1.5);
+	}
+}

@@ -1,0 +1,67 @@
+
+{% if paginate.previous or paginate.next %}
+  <div class="pagination--container">
+    <a class="pagination--back-to-top-button" href="#back-to-top">
+        <span >
+          Back to top
+        </span>
+        <span>{% include 'icon-circle-arrow-right' %}</span>
+    </a>
+    <ul class="pagination--inner">
+
+      {% if paginate.previous %}
+        <li class="pagination--previous">
+          <a class="pagination--item" href="{{ paginate.previous.url }}">
+            <span class="pagination--chevron-left" aria-hidden="true">
+              {% include 'icon-chevron-down-small' %}
+            </span>
+
+            {{ 'general.pagination.prev' | t }}
+          </a>
+        </li>
+      {% endif %}
+
+      {% for part in paginate.parts %}
+        {% if part.is_link %}
+          <li>
+            <a class="pagination--item" href="{{ part.url }}">
+              {{ part.title }}
+            </a>
+          </li>
+        {% else %}
+          {% if part.title == '&hellip;' %}
+            <li class="pagination--ellipsis">
+              <span class="pagination--item">
+                {{ part.title }}
+              </span>
+            </li>
+          {% else %}
+            <li class="pagination--active">
+              <span class="pagination--item">
+                {{ part.title }}
+              </span>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+
+      {% if paginate.next %}
+        <li class="pagination--next">
+          <a class="pagination--item" href="{{ paginate.next.url }}">
+            {{ 'general.pagination.next' | t }}
+
+            <span class="pagination--chevron-right" aria-hidden="true">
+              {% include 'icon-chevron-down-small' %}
+            </span>
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+    <a class="pagination--back-to-top-button" href="#back-to-top">
+        <span >
+          Back to top
+        </span>
+        <span>{% include 'icon-circle-arrow-right' %}</span>
+    </a>
+  </div>
+{% endif %}

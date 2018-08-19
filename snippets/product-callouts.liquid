@@ -1,0 +1,72 @@
+
+<section class="promo-grid--container">
+  {% if section.settings.title != blank %}
+    <h1 class="product-section--title">
+      {{ section.settings.title | escape }}
+    </h1>
+  {% endif %}
+
+  {%- capture classes -%}
+    product-section--promos
+    promo-grid--height-{{ section.settings.section_height }}
+  {%- endcapture -%}
+
+  <div class="{{ classes | strip_newlines }}">
+    {% if section.blocks.size > 0 %}
+      <div class="promo-grid--inner">
+        {% assign half_width_iteration = 0 %}
+
+        {% for block in section.blocks %}
+
+          {% if block.settings.is_disabled == false %}
+
+              {% assign half_width_class = '' %}
+
+              {% comment %}
+                For IE support, add an additional class to half width blocks when
+                they're adjacent to other half blocks
+              {% endcomment %}
+              {%- if block.settings.promo_width == 'half-width' -%}
+                {% assign half_width_iteration = half_width_iteration | plus: 1 %}
+
+                {% comment %}
+                  If is second iteration, then it will always be right aligned
+                {% endcomment %}
+                {%- if half_width_iteration == 2 -%}
+                  {% assign half_width_iteration = 0 %}
+                  {% assign half_width_class = 'promo-block--right ' %}
+                {%- endif -%}
+              {%- else -%}
+
+                {% comment %}
+                  Reset iteration counter when a full width block appear.
+                  If a half width block follows, it will always be left aligned
+                {% endcomment %}
+                {% assign half_width_iteration = 0 %}
+              {%- endif -%}          
+
+              {%- capture additional_classes -%}
+                promo-grid--{{ block.settings.promo_width }} 
+
+                {{ half_width_class }}
+
+              {%- endcapture -%}
+
+              {%
+                include 'promo-block',
+                block: block,
+                additional_classes: additional_classes
+              %}
+
+          {%- endif -%}
+
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+
+  {%
+    include 'promo-block-background',
+    blocks: section.blocks
+  %}
+</section>

@@ -1,0 +1,3 @@
+@function grid-pixels($col,$spacer) {
+    @return ($GRID-COL * $col) + ($GRID-SPACER * $spacer) + px;
+}

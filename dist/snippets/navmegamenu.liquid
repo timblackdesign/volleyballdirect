@@ -1,0 +1,44 @@
+{%- capture navmenu_classes -%}
+  navmenu navmegamenu navmenu-depth-1
+{%- endcapture -%}
+
+<ul class="{{ navmenu_classes | strip_newlines }}" >
+
+  {% for block in section.blocks %}
+
+      {%- capture navmenu_item_classes -%}
+        navmenu-item
+        navmenu-item-parent
+        navmenu-id-{{ block.handle }}
+        navmenu-meganav-item-parent
+      {%- endcapture -%}
+
+      <li class="{{ navmenu_item_classes | strip_newlines }}" 
+        {% if block.settings.link-option == null %}
+          data-navmenu-trigger data-navmenu-meganav-trigger
+        {% endif %}
+         >
+        <a
+          class="navmenu-link navmenu-link-parent"
+          href="{{ block.settings.link-option }}">
+
+          {{ block.settings.menu-item }}
+
+        </a>
+
+          {%- capture meganav_classes -%}
+            navmenu-submenu
+            navmenu-meganav
+            navmenu-meganav--desktop
+          {%- endcapture -%}
+          <div class="{{ meganav_classes | strip_newlines }}" data-navmenu-submenu data-meganav-menu >
+            <div class="navmenu-meganav--scroller">
+
+              {%
+                include 'meganav-navmenu_2'
+              %}
+            </div>
+          </div>
+      </li>
+  {% endfor %}
+</ul>
